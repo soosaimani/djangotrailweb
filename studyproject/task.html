@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <title>Task list</title>
+        <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <form method='post'>
+            {% csrf_token %}
+        <h1>Task list</h1>
+        <div id="parent-div">OK</div>
+        <button hx-post="{% url 'clicked' %}" hx-trigger="click" hx-target="#parent-div" hx-swap="outerHTML" hx-trigger="every 2s"  >Click Me!</button>
+        <div hx-put="/messages">
+            Put To Messages
+        </div>
+
+        <br>
+        <div hx-post="/mouse_entered" hx-trigger="mouseenter">
+            [Here Mouse, Mouse!]
+        </div>
+          <br>
+          <input type="text" name="q"
+    hx-get="{% url 'clicked' %}"
+    hx-trigger="keyup delay:1s changed"
+    hx-target="#search-results"
+    placeholder="Search..."
+>
+<div id="search-results"></div>
+
+<button hx-delete="/account" hx-confirm="Are you sure?">
+    Delete My Account
+</button>
+<button hx-put="/account" hx-confirm="Are you sure?">
+    Update My Account
+</button>
+
+
+<div hx-confirm="Are you sure?">
+    <button hx-delete="/account1">
+        Delete My Account
+    </button>
+    <button hx-put="/account1">
+        Update My Account
+    </button>
+</div>
+
+<div hx-confirm="Are you sure?">
+    <button hx-delete="/account">
+        Delete My Account
+    </button>
+    <button hx-put="/account">
+        Update My Account
+    </button>
+    <button hx-confirm="unset" hx-get="/">
+        Cancel
+    </button>
+</div>
+<form hx-post="/test">
+    {% csrf_token %}
+    <input _="on htmx:validation:validate
+                if my.value != 'foo'
+                    call me.setCustomValidity('Please enter the value foo')
+                else
+                    call me.setCustomValidity('')"
+        name="example"
+    >
+</form>
+
+
+
+
+<button onclick="alert('You clicked me!')">
+    Click Me!
+</button>
+
+<button hx-on="click: alert('You clicked me!')">
+    Click Me!
+</button>
+
+<div _="on load wait 1s then transition opacity to 0 then remove me">
+    Here is a temporary message!
+</div>
+
+
+
+
+
+    </form>
+   
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>

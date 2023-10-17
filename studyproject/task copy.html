@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Task list</title>
+        <script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js"></script>
+    </head>
+    <body>
+        <h1>Task list</h1>
+        <ul>
+            {% for task in tasks %}
+                <li hx-get="{% url 'toggle_task' task.id %}">{{task.title}} - {% if task.status %} Completed {% else %} Incomplete{% endif %}</li>
+            {% endfor %}
+        </ul>
+        <h1>Post Task List</h1>
+        <ul id="task-list">
+            {% for task in tasks %}
+                <li>
+                    <form hx-post="{% url 'toggle_task' task.id %}" hx-swap="innerHTML" hx-target="#task-list">
+                        {% csrf_token %}
+                        <input type="hidden" name="task_id" value="{{task.id}}">
+                        {{task.title}}- {% if task.status %} Completed {% else %}Incomplete{% endif %}
+                        <button type="submit">Toggle</button>
+
+                    </form>
+                </li>
+            {% endfor %}
+    </body>
+</html>
