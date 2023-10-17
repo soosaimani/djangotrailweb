@@ -1,0 +1,2 @@
+# djangotrailweb
+my training website
